@@ -1,0 +1,156 @@
+{% extends "::base.html.twig" %}
+
+{% block body %}
+<body>
+	<center>
+	<section>
+	<h1>{{ title }}</h1>
+	<div id="clear">
+ 		<a href="{{ path('opcache_delete') }}">
+ 			<img src="{{ asset('image/clear.png') }}" 
+        					 width="40%" 
+        					 height="40%" 
+        					 alt="clear" />
+		</a>
+ 	</div>
+
+	<div id="memory">
+    	<h2>Memory</h2>
+    	<div>
+            <style scoped>
+            	.round {
+                    
+                    {%  if  percentfree>50  %}
+                    	background:
+                    		linear-gradient(0deg, green 50%, transparent 50%, transparent 100%),
+                     		linear-gradient({{(percentfree -50) *3.6}}deg, green 50%, transparent 50%, transparent 100%),
+                     		linear-gradient({{360-percentused*3.6}}deg, red 50%, orange 50%, orange 100%);
+              		{% else %} 
+              			background:
+                     		linear-gradient(0deg, red 50%, transparent 50%, transparent 100%),
+                     		linear-gradient({{(percentused -50) *3.6}}deg, red 50%, transparent 50%, transparent 100%),
+                     		linear-gradient({{360-percentfree*3.6}}deg, green 50%, orange 50%, orange 100%);
+              		{%  endif %} 
+                }
+          	</style>      
+            <div class="round"><span>{{ percentfree }}%</span></div>
+		</div>
+		<div class='col-xs-6 col-xs-offset-3 col-md-4 col-md-offset-4'></div>
+        	<table >
+            	<tr>
+            		<td>Free memory </td>
+            		<td> {{ free }}</td>
+            		<td> {{ percentfree }}%</td>
+        		</tr>
+            	<tr>
+            		<td>Used memory </td>
+            		<td> {{ used }}</td>
+            		<td>{{ percentused }}%</td>
+        		</tr>
+            	<tr>
+            		<td>Wasted memory </td>
+            		<td>  {{ wasted }}</td>
+            		<td>{{ wastedpercent }}%</td>
+            		
+        		</tr>
+        	</table>
+    	</div>
+	</div>
+	
+	<div id="keys">
+        <h2>Keys</h2>
+    	<div>
+    		<style scoped>
+                .round {
+                	
+                    {%  if  percentfreekeys>50  %}
+                	background:
+                		linear-gradient(0deg, green 50%, transparent 50%, transparent 100%),
+                 		linear-gradient({{(percentfreekeys -50) *3.6}}deg, green 50%, red 50%, red 100%);
+                 		linear-gradient({{360-percentusedkeys*3.6}}deg, red 50%, orange 50%, orange 100%);
+              		{% else %} 
+              			background:
+                     		linear-gradient(0deg, red 50%, transparent 50%, transparent 100%),
+                     		linear-gradient({{(percentusedkeys -50) *3.6}}deg, red 50%, transparent 50%, transparent 100%),
+                     		linear-gradient({{360-percentfreekeys*3.6}}deg, green 50%, orange 50%, orange 100%);
+              		{%  endif %} 
+                }
+           
+            </style>
+            <div class="round">
+            	<span>{{ percentfreekeys }} %</span>
+        	</div> 
+    	</div>   
+    	<table>
+        	<tr>
+        		<td>Free keys </td>
+        		<td> {{ freekeys }}</td>
+        		<td> {{ percentfreekeys }} %</td>
+    		</tr>
+        	<tr>
+        		<td>Used Keys </td>
+        		<td> {{ usedkeys }}</td>
+        		<td> {{ percentusedkeys }} %</td>
+    		</tr>
+    	</table>
+	</div>
+	<div id="hit">
+        <h2>Hits</h2>
+        <div>
+    		<style scoped>
+                    .round {
+                        {%  if  percenthit>50  %}
+                        	background:
+                        		linear-gradient(0deg, green 50%, transparent 50%, transparent 100%),
+                         		linear-gradient({{(percenthit -50) *3.6}}deg, green 50%, red 50%, red 100%);
+                         		linear-gradient({{(360-percentmiss*3.6)}}deg, red 50%, orange 50%, orange 100%);
+                  		{% else %} 
+                  			background:
+                         		linear-gradient(0deg, red 50%, transparent 50%, transparent 100%),
+                         		linear-gradient({{(percentmiss -50) *3.6}}deg, red 50%, transparent 50%, transparent 100%),
+                         		linear-gradient({{(360-percenthit*3.6)}}deg, green 50%, orange 50%, orange 100%);
+                  		{%  endif %} 
+                    }
+              
+            </style>
+        	<div class="round">
+        		<span>{{ percenthit }} </span>
+    		</div> 
+    	</div>
+    	 
+    	<table>
+        	<tr>
+        		<td>Hits </td>
+        		<td> {{ hit }}</td>
+        		<td> {{ percenthit }} %</td>
+    		</tr>
+        	<tr>
+        		<td>misses hits </td>
+        		<td> {{ miss }}</td>
+        		<td>{{ percentmiss }}%</td>
+    		</tr>
+    	</table> 
+    	
+	</div>
+    
+    <h2>Scripts ({{ Scripts }} utilisés) :</h2>
+	<SELECT>   
+    {%  for value in script %}
+        <OPTION><li>
+    	   <b>{{ value.memory_consumption / 1000}} KB </b>{{ value.full_path}}
+    	</li>
+    {%  endfor %}
+    </SELECT>
+    
+    </section>
+    </center>
+</body>
+{% endblock %}
+
+
+
+
+
+
+
+
